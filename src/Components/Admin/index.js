@@ -7,15 +7,15 @@ const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
-  const [socket, setSocket] = useState(null); // WebSocket state
+  const [socket, setSocket] = useState(null); 
 
-  // Handle input changes
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission (Login)
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -24,28 +24,28 @@ const Admin = () => {
         password: formData.password,
       });
 
-      // If login is successful, store token and fetch user submissions
+
       const token = response.data.token;
-      localStorage.setItem('token', token); // Store token in local storage
+      localStorage.setItem('token', token); 
 
       setIsAuthenticated(true);
       setError('');
-      fetchUsers(); // Fetch users after successful login
+      fetchUsers(); 
     } catch (error) {
       setError('Invalid username or password');
       setIsAuthenticated(false);
     }
   };
 
-  // Handle logout
+ 
   const handleLogout = () => {
-    setIsAuthenticated(false);  // Clear authenticated state
-    setFormData({ username: '', password: '' });  // Reset form data
-    setUsers([]);  // Clear user submissions
-    if (socket) socket.close(); // Close WebSocket on logout
+    setIsAuthenticated(false);  
+    setFormData({ username: '', password: '' }); 
+    setUsers([]);  
+    if (socket) socket.close();
   };
 
-  // Fetch users
+
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -60,15 +60,14 @@ const Admin = () => {
     }
   };
 
-  // WebSocket connection to receive new submissions
   useEffect(() => {
     if (isAuthenticated) {
-      const ws = new WebSocket('wss://threewassignment-backend.onrender.com'); // Connect to WebSocket server
+      const ws = new WebSocket('wss://threewassignment-backend.onrender.com'); 
       setSocket(ws);
 
       ws.onmessage = (event) => {
         const newUser = JSON.parse(event.data);
-        setUsers((prevUsers) => [...prevUsers, newUser]); // Add the new user to the list
+        setUsers((prevUsers) => [...prevUsers, newUser]); 
       };
 
       ws.onclose = () => {
@@ -80,7 +79,7 @@ const Admin = () => {
       };
 
       return () => {
-        if (ws) ws.close(); // Close WebSocket on component unmount
+        if (ws) ws.close(); 
       };
     }
   }, [isAuthenticated]);
@@ -119,6 +118,7 @@ const Admin = () => {
 
             <button type="submit" className="submit-btn">Login</button>
           </form>
+          <h2>Assume you are an Admin and Enter Your username and your Password  </h2>
         </div>
       ) : (
         <div className="dashboard-container">
