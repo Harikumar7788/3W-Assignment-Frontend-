@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './style.css';
 
@@ -70,6 +71,8 @@ const UserSubmissionForm = () => {
   return (
     <div className="form-container">
       <h2>User Submission Form</h2>
+
+      <Link to = "/admin"> <button className="submit-btn1"> Admin View </button> </Link>
       <form onSubmit={handleSubmit} className="submission-form">
  
         <div className="form-group">
